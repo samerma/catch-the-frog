@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Catch the Frog</title>
+
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,500&family=Indie+Flower&family=Source+Sans+Pro:ital,wght@1,300&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          type="text/css"
+          href="style.css" />
+</head>
+
+<body>
+
+
+    <div id="header">
+        <p id="time"></p>
+    </div>
+    <div id="playing-field"></div>
+    <div id="footer">
+        <p id="frogsLeft"></p>
+        <button id="start">Start</button>
+        <p id="level"></p>
+    </div>
+
+
+    <script id="frog-template"
+            type="text/x-handlebars-template">
+            {{#each frogs}}
+            <i class="fas fa-frog frog"
+                style="right: {{x}}px; top: {{y}}px; font-size: {{size}}px; color: {{color}};" 
+                data-id="{{id}}"></i>
+            {{/each}}
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    <script src="frog.js"></script>
+    <script src="frogs.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
