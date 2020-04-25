@@ -8,7 +8,7 @@
           href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
           integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
           crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Raleway"
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,500&family=Indie+Flower&family=Source+Sans+Pro:ital,wght@1,300&display=swap"
           rel="stylesheet">
     <link rel="stylesheet"
           type="text/css"
@@ -21,9 +21,7 @@
     <div id="header">
         <p id="time"></p>
     </div>
-
     <div id="playing-field"></div>
-
     <div id="footer">
         <p id="frogsLeft"></p>
         <button id="start">Start</button>
@@ -31,14 +29,12 @@
     </div>
 
 
-
-
     <script id="frog-template"
             type="text/x-handlebars-template">
             {{#each frogs}}
-                <div class="frog" 
-                style="right: {{x}}px; top: {{y}}px; width: {{size}}px; height: {{size}}px;" 
-                data-id="{{id}}"></div>
+            <i class="fas fa-frog frog"
+                style="right: {{x}}px; top: {{y}}px; font-size: {{size}}px; color: {{color}};" 
+                data-id="{{id}}"></i>
             {{/each}}
     </script>
 

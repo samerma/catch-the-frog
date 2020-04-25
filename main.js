@@ -8,7 +8,7 @@ const $timeLeft = $("#time")
 const $start = $("#start")
 $frogsLeft.text("Frogs Left")
 $level.text("Level")
-$timeLeft.text("time")
+$timeLeft.text("Time")
 
 const addFrogs = function () {
     for (let i = 0; i < frogs.getLevel(); i++) {
@@ -16,8 +16,9 @@ const addFrogs = function () {
         while (locationExists(location)) {//make sure no other frogs in location
             location = getRandomLocation()
         }
+        const color = getRandomColor()
         const id = Frogs.getIdCount()
-        const frog = new Frog(id, location.x, location.y, location.size)
+        const frog = new Frog(id, location.x, location.y, location.size, color)
         frogs.add(frog)
     }
 }
@@ -59,7 +60,7 @@ const startGame = function () {
     timerId = setTimeout(() => {
         resetGame()
     }
-        , 2000 * frogs.getLevel());
+        , 1500 * frogs.getLevel());
     $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
     $level.text(`Level ${frogs.getLevel()}`)
     $timeLeft.text("1 Second Left")
@@ -84,7 +85,7 @@ const startNewLevel = function () {
     }, 1000)
     timerId = setTimeout(() => {
         resetGame()
-    }, 2000 * frogs.getLevel());
+    }, 1000 * frogs.getLevel());
     addFrogs()
     $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
     $level.text(`Level ${frogs.getLevel()}`)
@@ -92,9 +93,7 @@ const startNewLevel = function () {
 
 const resetGame = function () {
     frogs = new Frogs()
-    /*  $frogsLeft.text("Frogs Left")
-     $level.text("Level")*/
-    $timeLeft.text("time")
+    $timeLeft.text("Time")
     $timeLeft.css("color", "black")
     clearTimeout(timerId);
     clearInterval(timerDisplayId)
@@ -107,7 +106,7 @@ const getRandomLocation = function () {
     const h = $playingField.height()
     let x = getRandomInt(w)
     let y = getRandomInt(h)
-    const size = Math.floor(y / 10) + 5
+    const size = Math.floor(y / 10) + 10
 
     //make sure frog not out of bounds
     if (x + size >= w) {
@@ -122,7 +121,6 @@ const getRandomLocation = function () {
     if (y - size <= 0) {
         y += size
     }
-
     return { x, y, size }
 }
 
@@ -136,6 +134,12 @@ const locationExists = function (location) {
 }
 const getRandomInt = function (max) {
     return Math.floor(Math.random() * Math.floor(max));
+}
+const getRandomColor = function () {
+    const colors = ["red", "blue", "yellow", "brown", "black", "purple", "white",
+        "gold", "aqua", "indigo", "wheat", "coral", "navy", "orange",
+        "salmon", "skyblue"]
+    return colors[getRandomInt(colors.length - 1)];
 }
 
 
