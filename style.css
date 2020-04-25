@@ -28,3 +28,8 @@
 #level{
     grid-area: l;
 }
+#gameOver{
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}

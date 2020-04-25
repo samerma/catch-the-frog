@@ -1,10 +1,11 @@
 const $playingField = $("#playing-field")
-const frogs = new Frogs()
+let frogs = new Frogs()
 let timerId = ''
 let timerDisplayId = ''
 const $frogsLeft = $("#frogsLeft")
 const $level = $("#level")
 const $timeLeft = $("#time")
+const $start = $("#start")
 $frogsLeft.text("Frogs Left")
 $level.text("Level")
 $timeLeft.text("time")
@@ -29,8 +30,13 @@ const renderFrogs = function () {
     $playingField.empty()
     const source = $('#frog-template').html();
     const template = Handlebars.compile(source);
-    const newHTML = template({ frogs: frogs.getFrogs() });
-    $playingField.append(newHTML)
+    const frogHTML = template({ frogs: frogs.getFrogs() });
+    $playingField.append(frogHTML)
+}
+const renderGameOver = function () {
+    $playingField.empty()
+    gameOverHTML = '<h1 id="gameOver">Game Over</h1>'
+    $playingField.append(gameOverHTML)
 }
 
 $playingField.on("click", ".frog", function () {
@@ -42,17 +48,22 @@ $playingField.on("click", ".frog", function () {
     renderFrogs()
 })
 
-$("#start").on("click", function () {
+$start.on("click", function () {
     startGame()
 })
 
 const startGame = function () {
+    resetGame()
     addFrogs()
     renderFrogs()
-    timerId = setTimeout(() => alert('you lose'), 2000 * frogs.getLevel());
+    timerId = setTimeout(() => {
+        resetGame()
+    }
+        , 2000 * frogs.getLevel());
     $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
     $level.text(`Level ${frogs.getLevel()}`)
     $timeLeft.text("1 Second Left")
+    $start.text('Restart Game')
 }
 
 const startNewLevel = function () {
@@ -60,14 +71,35 @@ const startNewLevel = function () {
     clearInterval(timerDisplayId)
     let timeLeft = frogs.getLevel()
     $timeLeft.text(`${timeLeft} Seconds Left`)
+    $timeLeft.css("color", "yellow")
     timerDisplayId = setInterval(() => {
         timeLeft--
         $timeLeft.text(`${timeLeft} Seconds Left`)
+        if (timeLeft <= 3) {
+            $timeLeft.css("color", "red")
+        }
+        else {
+            $timeLeft.css("color", "black")
+        }
     }, 1000)
-    timerId = setTimeout(() => alert('Hello'), 2000 * frogs.getLevel());
+    timerId = setTimeout(() => {
+        resetGame()
+    }, 2000 * frogs.getLevel());
     addFrogs()
     $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
     $level.text(`Level ${frogs.getLevel()}`)
+}
+
+const resetGame = function () {
+    frogs = new Frogs()
+    /*  $frogsLeft.text("Frogs Left")
+     $level.text("Level")*/
+    $timeLeft.text("time")
+    $timeLeft.css("color", "black")
+    clearTimeout(timerId);
+    clearInterval(timerDisplayId)
+    renderGameOver()
+    $start.text("Start")
 }
 
 const getRandomLocation = function () {
