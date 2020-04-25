@@ -1,13 +1,13 @@
 class Frogs {
     constructor() {
-        this.arr = []
+        this.frogs = []
         this.level = 1
     }
     getFrogs() {
-        return this.arr
+        return this.frogs
     }
     getFrogsCount() {
-        return this.arr.length
+        return this.frogs.length
     }
     static getIdCount() {
         return Frogs.idCount
@@ -16,15 +16,15 @@ class Frogs {
         return this.level
     }
     add(frog) {
-        this.arr.push(frog)
+        this.frogs.push(frog)
     }
     delete(id) {
-        for (let fIndex in this.arr) {
-            if (this.arr[fIndex].id === id) {
-                this.arr.splice(fIndex, 1)
+        for (let fIndex in this.frogs) {
+            if (this.frogs[fIndex].id === id) {
+                this.frogs.splice(fIndex, 1)
             }
         }
-        if (this.arr.length === 0) {
+        if (this.frogs.length === 0) {
             this.level++
         }
     }

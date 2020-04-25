@@ -1,24 +1,24 @@
 const $playingField = $("#playing-field")
 const frogs = new Frogs()
-let timerId = ""
-
-const getRandomInt = function (max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+let timerId = ''
+let timerDisplayId = ''
+const $frogsLeft = $("#frogsLeft")
+const $level = $("#level")
+const $timeLeft = $("#time")
+$frogsLeft.text("Frogs Left")
+$level.text("Level")
+$timeLeft.text("time")
 
 const addFrogs = function () {
-    //create new frogs
     for (let i = 0; i < frogs.getLevel(); i++) {
-        // create random location
-        const w = $playingField.width()
-        const h = $playingField.height()
-        const x = getRandomInt(w)
-        const y = getRandomInt(h)
+        let location = getRandomLocation()
+        while (locationExists(location)) {//make sure no other frogs in location
+            location = getRandomLocation()
+        }
         const id = Frogs.getIdCount()
-        const frog = new Frog(id, x, y)
+        const frog = new Frog(id, location.x, location.y, location.size)
         frogs.add(frog)
     }
-    console.log(frogs);
 }
 
 const removeFrog = function (id) {
@@ -35,17 +35,75 @@ const renderFrogs = function () {
 
 $playingField.on("click", ".frog", function () {
     removeFrog($(this).data("id"))
+    $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
     if (frogs.getFrogsCount() === 0) {
-        clearTimeout(timerId);
-        timerId = setTimeout(() => alert('Hello'), 1000 * frogs.getLevel());
-        addFrogs()
+        startNewLevel()
     }
     renderFrogs()
 })
 
 $("#start").on("click", function () {
+    startGame()
+})
+
+const startGame = function () {
     addFrogs()
     renderFrogs()
-    timerId = setTimeout(() => alert('you lose'), 1000 * frogs.getLevel());
+    timerId = setTimeout(() => alert('you lose'), 2000 * frogs.getLevel());
+    $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
+    $level.text(`Level ${frogs.getLevel()}`)
+    $timeLeft.text("1 Second Left")
+}
 
-})
+const startNewLevel = function () {
+    clearTimeout(timerId);
+    clearInterval(timerDisplayId)
+    let timeLeft = frogs.getLevel()
+    $timeLeft.text(`${timeLeft} Seconds Left`)
+    timerDisplayId = setInterval(() => {
+        timeLeft--
+        $timeLeft.text(`${timeLeft} Seconds Left`)
+    }, 1000)
+    timerId = setTimeout(() => alert('Hello'), 2000 * frogs.getLevel());
+    addFrogs()
+    $frogsLeft.text(`${frogs.getFrogsCount()} Frogs Left`)
+    $level.text(`Level ${frogs.getLevel()}`)
+}
+
+const getRandomLocation = function () {
+    const w = $playingField.width()
+    const h = $playingField.height()
+    let x = getRandomInt(w)
+    let y = getRandomInt(h)
+    const size = Math.floor(y / 10) + 5
+
+    //make sure frog not out of bounds
+    if (x + size >= w) {
+        x -= size
+    }
+    if (x - size <= 0) {
+        x += size
+    }
+    if (y + size >= h) {
+        y -= size
+    }
+    if (y - size <= 0) {
+        y += size
+    }
+
+    return { x, y, size }
+}
+
+const locationExists = function (location) {
+    for (let frog of frogs.getFrogs()) {
+        if (location.x >= frog.x - frog.size && location.x <= frog.x + frog.size
+            && location.y >= frog.y - frog.size && location.y <= frog.y + frog.size)
+            return true
+    }
+    return false
+}
+const getRandomInt = function (max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+

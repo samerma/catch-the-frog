@@ -6,8 +6,25 @@
 }
 
 .frog{
-    height: 40px;
-    width: 40px;
     background-color: aliceblue;
     position: absolute;
+}
+
+#header{
+    text-align: center;
+}
+#footer{
+    display: grid;
+   grid-template-areas: "fl s l";
+   grid-template-columns: repeat(3, 1fr);
+   text-align: center;
+}
+#frogsLeft{
+    grid-area: fl;
+}
+#start{
+    grid-area: s;
+}
+#level{
+    grid-area: l;
 }
